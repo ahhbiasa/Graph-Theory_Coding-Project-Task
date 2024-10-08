@@ -249,7 +249,7 @@ def find_eulerian_circuit(graph, start):
 Then we can construct a final solution by following the circuit, keeping track of the nodes and edges visited, and calculating the cost along the way.
 
 # Knights Tour
-The goal of Knights Tour problem is to move a knight in a `NxN` size chessboard to visit all square on the board exactly once, using only knight's legal moves.
+The goal of Knights Tour problem is to move a knight in a `MxN` size chessboard to visit all square on the board exactly once, using only knight's legal moves.
 ## 1.1 Code Explanation (Knights Tour Function):
 ### 1.1.1 Knight Move
 These are the moves in `(X, Y)` format that can be done by a knight on the chessboard.
@@ -306,7 +306,7 @@ this part to initialize all cells in the chessboard and knights start position.
 ```
 if the tour are completed, it will print all the cells that are visited from the start position.
 ### 1.1.5 User-Input
-The chessboard size `N` and the knight's starting position `(start_x, start_y)` are taken from the user.
+The chessboard size `MxN` and the knight's starting position `(start_x, start_y)` are taken from the user.
 ```py
 M = int(input("Enter the Number of rows chessboard: "))
 N = int(input("Enter the Number of columns chessboard: "))
