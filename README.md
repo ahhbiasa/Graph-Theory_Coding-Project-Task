@@ -48,7 +48,7 @@ This loop processes the `edges` list. Each edge has:
 - `u, v`: Nodes connected by the edge. Subtracting 1 (`u -= 1`) adjusts the input to 0-based indexing (since Python lists are indexed from 0).
 - `cost`: The travel cost between nodes `u` and `v`.
 
-The adjacency matrix is filled such that the travel cost between node `u` and node `v` is recorded in both directions (since the graph is assumed to be undirected).
+The adjacency matrix is filled such that the travel cost between node `u` and node `v` is recorded in both directions.
 The `edge_map` dictionary stores the name of each edge between two nodes.
 
 ### 1.1.5 Adjusting the Starting Node
