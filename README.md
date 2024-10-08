@@ -250,7 +250,7 @@ Then we can construct a final solution by following the circuit, keeping track o
 
 # Knights Tour
 The goal of Knights Tour problem is to move a knight in a `NxN` size chessboard to visit all square on the board exactly once, using only knight's legal moves.
-## 1.1 Code Explanation (TSP Function):
+## 1.1 Code Explanation (Knights Tour Function):
 ### 1.1.1 Knight Move
 These are the moves in `(X, Y)` format that can be done by a knight on the chessboard.
 ```py
