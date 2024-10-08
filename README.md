@@ -196,6 +196,55 @@ The function returns the minimum cost, the best route, and the edges used in tha
 
 # Chinese Postman Problem
 
+Imagine we were visiting a city, and you want to visit every street in this city once in the most minimum possible distance to accomplish this tour. This is essentially what the Chinese Postman Problem is about.
+
+We can think of these streets as the edges, connecting vertices (intersections). We would need to have these vertices at an even number, because then we could traverse each edge exactly once.
+
+We can represent our graph as an adjacency list using a dictionary of dictionaries. Each edge is stored with its cost and name.
+
+```python
+graph = defaultdict(dict)
+edge_map = {}
+
+for edge in edges:
+    name, u, v, cost = edge
+    u -= 1
+    v -= 1
+    graph[u][v] = (cost, name)
+    graph[v][u] = (cost, name)
+    edge_map[(u, v)] = edge_map[(v, u)] = name
+```
+
+We will have to check if this graph has a eularian circuit. If all vertices have even degree, then such a circuit exists, and we can solve the problem directly.
+
+```python
+def find_odd_degree_vertices():
+    return [v for v in range(n) if len(graph[v]) % 2 != 0]
+
+odd_vertices = find_odd_degree_vertices()
+if not odd_vertices:
+    # Eulerian circuit exists
+```
+
+But if we have odd degree vertices, we need to add extra edges to make all vertices even degree. We do that by finding a minimum weight perfect matching among the odd degree vertices.
+
+```python
+for matching in itertools.combinations(range(n_odd), n_odd // 2):
+    cost = sum(dist[odd_vertices[i]][odd_vertices[j]] for i, j in zip(matching, set(range(n_odd)) - set(matching)))
+    if cost < min_cost:
+        min_cost = cost
+        best_matching = matching
+```
+
+The graph is augmented with the edges from the minimum weight perfect matching. Then we can find for a eularian circuit with this function:
+
+```python
+def find_eulerian_circuit(graph, start):
+    # pass
+```
+
+Then we can construct a final solution by following the circuit, keeping track of the nodes and edges visited, and calculating the cost along the way.
+
 # Knights Tour
 The goal of Knights Tour problem is to move a knight in a `NxN` size chessboard to visit all square on the board exactly once, using only knight's legal moves.
 ## 1.1 Code Explanation (TSP Function):
