@@ -197,3 +197,64 @@ The function returns the minimum cost, the best route, and the edges used in tha
 # Chinese Postman Problem
 
 # Knights Tour
+The goal of Knights Tour problem is to move a knight in a `NxN` size chessboard to visit all square on the board exactly once, using only knight's legal moves.
+## 1.1 Code Explanation (TSP Function):
+### 1.1.1 Knight Move
+These are the moves in `(X, Y)` format that can be done by a knight on the chessboard.
+`
+knight_moves = [
+    (2, 1), (1, 2), (-1, 2), (-2, 1),
+    (-2, -1), (-1, -2), (1, -2), (2, -1)
+]
+`
+### 1.1.2 Check Valid Move
+The `is_valid` function checks if the knight's move is within the chessboard and if the square hasn't been visited yet.
+`
+def is_valid(x, y, board, N):
+    return 0 <= x < N and 0 <= y < N and board[x][y] == -1
+`
+### 1.1.3 Backtracking
+`knights_tour` function is to backtrack the knight to move on each squares exactly once. 
+`
+def knights_tour(board, x, y, move_count, N, moves):
+    if move_count == N * N:
+        return True
+`
+the `base` part to check if the knight has visited all square or not.
+`
+    for move in knight_moves:
+        next_x, next_y = x + move[0], y + move[1]
+        if is_valid(next_x, next_y, board, N):
+            board[next_x][next_y] = move_count
+            moves.append((next_x, next_y))
+            if knights_tour(board, next_x, next_y, move_count + 1, N, moves):
+                return True
+            board[next_x][next_y] = -1
+            moves.pop()
+    return False
+`
+and this part is to find all possible moves the knight can make by using a loop
+
+### 1.1.4 Starts Knight Tour
+`start_knights_tour` function to initialize the cheesboard and start the tour based on the input.
+`
+def start_knights_tour(N, start_x, start_y):
+    board = [[-1 for _ in range(N)] for _ in range(N)]
+    board[start_x][start_y] = 0
+    moves = [(start_x, start_y)]
+`
+this part to initialize all cells in the chessboard and knights start position.
+`
+    if knights_tour(board, start_x, start_y, 1, N, moves):
+        for move in moves:
+            print(f"{move[0]} {move[1]}")
+    else:
+        print("No solution found")
+`
+if the tour are completed, it will print all the cells that are visited from the start position.
+### 1.1.5 User-Input
+The chessboard size `N` and the knight's starting position `(start_x, start_y)` are taken from the user.
+`
+N = int(input("Enter the size of the chessboard (N x N): "))
+start_x, start_y = map(int, input("Enter the starting position of the knight (x y): ").split())
+`
