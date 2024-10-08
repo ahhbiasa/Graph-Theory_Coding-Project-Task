@@ -87,15 +87,18 @@ The `start_node` input is adjusted to 0-based indexing.
             best_edges = current_edges
 ```
 **1st For Loop**
+
 - `itertools.permutations(nodes)`: This generates all possible orderings (permutations) of the `nodes` list. The TSP must try all possible routes to find the shortest.
 - `current_route`: The current route starts at the `start_node`, visits each node in the current permutation `perm`, and then returns to the `start_node`.
 - `current_cost`: Tracks the total travel cost of the current route.
 - `current_edges`: Tracks the edges used in the current route.
 
 **2nd For Loop**
+
 This loop iterates through pairs of consecutive nodes in the current route and accumulates the travel cost from `adj_matrix[u][v]`. It also records the corresponding edge names from `edge_map`.
 
 **If-Case**
+
 If the current route has a lower cost than the previously found routes, it becomes the new best route. The `min_cost`, `best_route`, and `best_edges` are updated accordingly.
 
 ### 1.1.8 Adjusting the Best Route for Output
