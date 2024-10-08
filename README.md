@@ -253,7 +253,7 @@ The goal of Knights Tour problem is to move a knight in a `NxN` size chessboard 
 ## 1.1 Code Explanation (TSP Function):
 ### 1.1.1 Knight Move
 These are the moves in `(X, Y)` format that can be done by a knight on the chessboard.
-```
+```py
 knight_moves = [
     (2, 1), (1, 2), (-1, 2), (-2, 1),
     (-2, -1), (-1, -2), (1, -2), (2, -1)
@@ -261,19 +261,19 @@ knight_moves = [
 ```
 ### 1.1.2 Check Valid Move
 The `is_valid` function checks if the knight's move is within the chessboard and if the square hasn't been visited yet.
-```
+```py
 def is_valid(x, y, board, N):
     return 0 <= x < N and 0 <= y < N and board[x][y] == -1
 ```
 ### 1.1.3 Backtracking
 `knights_tour` function is to backtrack the knight to move on each squares exactly once. 
-```
+```py
 def knights_tour(board, x, y, move_count, N, moves):
     if move_count == N * N:
         return True
 ```
 the `base` part to check if the knight has visited all square or not.
-```
+```py
     for move in knight_moves:
         next_x, next_y = x + move[0], y + move[1]
         if is_valid(next_x, next_y, board, N):
@@ -289,14 +289,14 @@ and this part is to find all possible moves the knight can make by using a loop
 
 ### 1.1.4 Starts Knight Tour
 `start_knights_tour` function to initialize the cheesboard and start the tour based on the input.
-```
+```py
 def start_knights_tour(N, start_x, start_y):
     board = [[-1 for _ in range(N)] for _ in range(N)]
     board[start_x][start_y] = 0
     moves = [(start_x, start_y)]
 ```
 this part to initialize all cells in the chessboard and knights start position.
-```
+```py
     if knights_tour(board, start_x, start_y, 1, N, moves):
         for move in moves:
             print(f"{move[0]} {move[1]}")
@@ -306,7 +306,7 @@ this part to initialize all cells in the chessboard and knights start position.
 if the tour are completed, it will print all the cells that are visited from the start position.
 ### 1.1.5 User-Input
 The chessboard size `N` and the knight's starting position `(start_x, start_y)` are taken from the user.
-```
+```py
 N = int(input("Enter the size of the chessboard (N x N): "))
 start_x, start_y = map(int, input("Enter the starting position of the knight (x y): ").split())
 ```
