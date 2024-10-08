@@ -13,21 +13,24 @@ The goal of the Traveling Salesman Problem (TSP) is to find the shortest possibl
 ```py
 import itertools
 ```
-This module is used to generate permutations of nodes, which helps in exploring all possible routes.
+`itertools`: This module provides functions that help with efficient looping. In this case, we use `itertools.permutations()` to generate all possible orderings of nodes for checking all possible paths in the TSP.
 
 ### 1.1.2 TSP Function Definition
 ``` py
 def tsp(n, edges, start_node):
 ```
 This function takes the number of nodes, the list of edges, and the starting node as input.
+- `n`: The number of nodes in the graph.
+- `edges`: A list of tuples, where each tuple represents an edge between two nodes with a cost (e.g., `(edge_number, node1, node2, cost)`).
+- `start_node`: The node from which the TSP journey starts and ends.
 
 ### 1.1.3 Adjacency Matrix and Edge Map
 ```py
     adj_matrix = [[float('inf')] * n for _ in range(n)]
     edge_map = {}
 ```
-- `adj_matrix`: A 2D list initialized with infinity (`float('inf')`) to represent the cost between nodes. It will be updated with actual edge costs.
-- `edge_map`: A dictionary to map edges to their names.
+- `adj_matrix`: A 2D list representing the cost to travel between any two nodes. Initially, all distances are set to infinity (`float('inf')`) because no edges have been defined yet. The matrix will eventually hold the travel costs between nodes.
+- `edge_map`: A dictionary that maps pairs of nodes to the name of the edge between them. This helps retrieve which edges are used in the best route.
 
 ### 1.1.4 Populating the Adjacency Matrix and Edge Map
 ```py
@@ -40,13 +43,19 @@ This function takes the number of nodes, the list of edges, and the starting nod
         edge_map[(u, v)] = name
         edge_map[(v, u)] = name
 ```
-This loop updates the adjacency matrix with the costs and the edge map with the edge names.
+This loop processes the `edges` list. Each edge has:
+- `name`: Identifier of the edge (e.g., edge number).
+- `u, v`: Nodes connected by the edge. Subtracting 1 (`u -= 1`) adjusts the input to 0-based indexing (since Python lists are indexed from 0).
+- `cost`: The travel cost between nodes `u` and `v`.
+
+The adjacency matrix is filled such that the travel cost between node `u` and node `v` is recorded in both directions (since the graph is assumed to be undirected).
+The `edge_map` dictionary stores the name of each edge between two nodes.
 
 ### 1.1.5 Adjusting the Starting Node
 ```py
     start_node -= 1
 ```
-Adjusts the starting node index to be zero-based.
+The `start_node` input is adjusted to 0-based indexing.
 
 ### 1.1.6 Generating Permutations of Nodes
 ```py
@@ -55,9 +64,10 @@ Adjusts the starting node index to be zero-based.
     best_route = None
     best_edges = None
 ```
-- `nodes`: A list of nodes excluding the starting node.
-- `min_cost`: Initialized to infinity to keep track of the minimum cost found.
-- `best_route and best_edges`: To store the best route and corresponding edges.
+- `nodes`: This creates a list of all nodes except the `start_node`. These are the nodes that need to be visited during the TSP.
+- `min_cost`: This variable holds the minimum cost found during the search. It is initially set to infinity.
+- `best_route`: Will store the best route (order of nodes) found.
+- `best_edges`: Will store the edges used in the best route.
 
 ### 1.1.7 Evaluating All Permutations
 ```py
@@ -76,19 +86,32 @@ Adjusts the starting node index to be zero-based.
             best_route = current_route
             best_edges = current_edges
 ```
-This loop evaluates all possible routes (permutations of nodes) and calculates the cost for each route. If a route has a lower cost than the current minimum, it updates the minimum cost and the best route.
+**1st For Loop**
+- `itertools.permutations(nodes)`: This generates all possible orderings (permutations) of the `nodes` list. The TSP must try all possible routes to find the shortest.
+- `current_route`: The current route starts at the `start_node`, visits each node in the current permutation `perm`, and then returns to the `start_node`.
+- `current_cost`: Tracks the total travel cost of the current route.
+- `current_edges`: Tracks the edges used in the current route.
+
+**2nd For Loop**
+This loop iterates through pairs of consecutive nodes in the current route and accumulates the travel cost from `adj_matrix[u][v]`. It also records the corresponding edge names from `edge_map`.
+
+**If-Case**
+If the current route has a lower cost than the previously found routes, it becomes the new best route. The `min_cost`, `best_route`, and `best_edges` are updated accordingly.
 
 ### 1.1.8 Adjusting the Best Route for Output
 ```py
     best_route = [node + 1 for node in best_route]
 ```
-Converts the zero-based node indices back to one-based for output.
+Since we used 0-based indexing internally, this converts the `best_route` back to 1-based indexing to match user expectations
 
 ### 1.1.9 Returning the Result
 ```py
     return min_cost, best_route, best_edges
 ```
-Returns the minimum cost, the best route, and the edges passed.
+Returns the:
+- `min_cost`: The minimum cost of the best route.
+- `best_route`: The order of nodes in the best route.
+- `best_edges`: The edges traversed in the best route.
 
 <br>
 
